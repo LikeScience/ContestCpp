@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int n, a, k, t = 0;
+int n, a = 0, k, t = 0;
 char c;
 vector<int> rem;
 
@@ -14,7 +14,7 @@ int main() {
 		cin >> c;
 		if (c == 'M') {
 			a++;
-			rem[i + k]++;
+			i(i+k < n) rem[i + k]++;
 		}
 		else t += a;
 		a -= rem[i];
