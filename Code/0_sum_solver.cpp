@@ -53,31 +53,27 @@ int main() {
 	cin >> m >> n;
 	empty.assign(n + 2, 0.0);
 	table.assign(m + 2, empty);
-	cout << m << " i " << n << endl;
 	for (int i = 1; i <= m; i++) {
 		for (int j = 1; j <= n; j++) {
-			cout << i << "P0" << j << endl;
 			cin >> entry;
 			table[i][j] = entry;
 		}	
 	}
-	cout << "P1" << endl;
 	
 	//tornar todos os valores positivos;
 	for (int i = 1; i <= m; i++) {
-		for (int j = 1; i <= n; j++) {
+		for (int j = 1; j <= n; j++) {
 			if (mini > table[i][j]) mini = table[i][j];
 		}	
 	}
 	if (mini <= 0) {
 		c = 1 - mini;
 		for (int i = 1; i <= m; i++) {
-			for (int j = 1; i <= n; j++) {
+			for (int j = 1; j <= n; j++) {
 				table[i][j] += c;
 			}	
 		}
 	}
-	cout << "P2" << endl;
 	
 	//colocar as "bordas" a tabela
 	for (int i = 1; i <= n; i++) {
@@ -88,7 +84,6 @@ int main() {
 		table[i][0] = double(-i);
 		table[i][n+1] = 1.0;
 	}
-	cout << "P3" << endl;
 	
 	//Loop - escolher pivot, "pivotear" a tabela e alterar a primeira linha e coluna.
 	while (1){
@@ -98,7 +93,7 @@ int main() {
 		//pivotear os elementos
 		oldtab = table;
 		for (int i = 1; i <= m+1; i++) {
-			for (int j = 1; i <= n+1; j++) {
+			for (int j = 1; j <= n+1; j++) {
 				if (i == p) {
 					if (j == q) {
 						table[i][j] = 1 / oldtab[i][j];
@@ -117,27 +112,26 @@ int main() {
 				}
 			}
 		}
-	cout << "P4" << endl;
 		
 		//trocar os números na primeira linha e coluna correspondentes ao pivot
 		table[0][q] = oldtab[p][0];
 		table[p][0] = oldtab[0][q];
-	cout << "P5" << endl;
 		
 	}
 	
 	//print do resultado
 	horizontal_output.assign(m, 0.0);
 	vertical_output.assign(n, 0.0);
-	cout << "Valor do jogo = " << c + 1/table[m+1][n+1] << endl;
-	cout << "Estratégia otimal do jogador horizontal:";	for (int i = 1; i <= n; i++) {
-		if(table[0][i] < 0.0) horizontal_output[i-1] = table[m+1][i]/table[m+1][n+1];
+	cout << "Valor do jogo = " << 1/table[m+1][n+1] - (mini <= 0 ? c : 0) << endl;
+	cout << "Estratégia otimal do jogador horizontal:";
+	for (int i = 1; i <= n; i++) {
+		if(table[0][i] < 0.0) horizontal_output[(0 - table[0][i]) - 1] = table[m+1][i]/table[m+1][n+1];
 	}
 	for (int i = 0; i < m; i++) cout << " " << horizontal_output[i];
 	cout << endl;
 	cout << "Estratégia otimal do jogador vertital:";
 	for (int i = 1; i <= m; i++) {
-		if(table[i][0] > 0.0) vertical_output[i-1] = table[i][n+1]/table[m+1][n+1];
+		if(table[i][0] > 0.0) vertical_output[table[i][0] - 1] = table[i][n+1]/table[m+1][n+1];
 	}
 	for (int i = 0; i < n; i++) cout << " " << vertical_output[i];
 	cout << endl;
